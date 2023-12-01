@@ -1,4 +1,9 @@
 import express from "express";
+//require('dotenv').config();
+import dotenv from "dotenv";
+
+// call the config function
+dotenv.config({path:'/Users/dongjinli/Documents/ReceipeBox/.env'});
 import { PORT,mongoDBURL } from "./config.js";
 import mongoose from 'mongoose';
 import { Receipe } from './models/receipeModel.js';
@@ -21,7 +26,10 @@ app.use(cors());
         //allowedHeaders: ['Content-Type'],
     //})
 //)
+//console.log(process.env.MONGO_URI);
 
+//const test = dotenv.config({path:'ReceipeBox/.env'});
+//console.log(test)
 
 app.get('/',(request,response) => {
     console.log(request);
@@ -139,7 +147,7 @@ app.delete('/receipe/:id', async(request,response) => {
 app.use('/receipe', receipeRoute);
 
 mongoose
-    .connect(mongoDBURL)
+    .connect(process.env.MONGO_URI)
     .then(() => {
         console.log('App connected to database');
         app.listen(PORT,() => {
